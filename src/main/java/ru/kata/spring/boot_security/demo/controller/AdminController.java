@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.Set;
 
 @Controller
@@ -30,8 +31,11 @@ public class AdminController {
     }
 
     @GetMapping()
-    public String showAllUsers(ModelMap model) {
+    public String showAllUsers(ModelMap model, Authentication authentication) {
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("currentUser", authentication.getPrincipal());
+        model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("newUser", new User());
         return "admin/index";
     }
 
@@ -42,37 +46,68 @@ public class AdminController {
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
-        return "admin/new";
+    public String newUser(ModelMap model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("roles", roleService.getAllRoles());
+        return "new2";
     }
 
     @PostMapping()
-    public String createUser(@ModelAttribute("user") @Valid User user,
-                             BindingResult bindingResult) {
+    public String createUser(@Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "admin/new";
-        } else {
-            userService.save(user);
-            return "redirect:/admin";
+            return "new2";
         }
+
+        Set<Role> roles = new HashSet<>();
+
+        for (Role role: user.getRoles()) {
+            roles.add(roleService.getRoleByName(role.getName()));
+        }
+        user.setRoles(roles);
+
+        userService.save(user);
+        System.out.println(user);
+        System.out.println(userService.getAllUsers());
+        return "redirect:/admin";
     }
 
     @GetMapping("/{id}/edit")
-    public String editUser(ModelMap model, @PathVariable("id") int id) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "admin/edit";
+    public String editUser(@ModelAttribute("user") User user, ModelMap model, @PathVariable("id") int id) {
+
+        model.addAttribute("roles", roleService.getAllRoles());
+        return "edit2";
     }
 
-    @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") @Valid User user,
-                             BindingResult bindingResult,
-                             @PathVariable("id") int id) {
+    @PostMapping("/{id}")
+    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+                             @PathVariable("id") int id,
+                             @RequestParam(name="roles", required = false) String[] roles) {
         if (bindingResult.hasErrors()) {
-            return "admin/edit";
-        } else {
-            userService.update(id, user);
-            return "redirect:/admin";
+            return "edit2";
         }
+
+        Set<Role> roles1 = new HashSet<>();
+
+        if(roles == null) {
+            user.setRoles(userService.getUserById(id).getRoles());
+        } else {
+            for (String role: roles) {
+                roles1.add(roleService.getRoleByName(role));
+                user.setRoles(roles1);
+            }
+        }
+//        Set<Role> roles = new HashSet<>();
+//
+//        for (Role role: user.getRoles()) {
+//            roles.add(roleService.getRoleByName(role.getName()));
+//        }
+
+
+
+        System.out.println("checking edit: " + user);
+
+        userService.update(id, user);
+        return "redirect:/admin";
     }
 
     @DeleteMapping("/{id}")

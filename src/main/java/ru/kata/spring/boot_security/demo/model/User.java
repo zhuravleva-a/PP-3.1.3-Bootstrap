@@ -8,6 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,26 +20,30 @@ public class User implements UserDetails {
     private long id;
 
     @Column(name = "name")
-    @NotEmpty(message = "Обязательное поле")
+    //@NotEmpty(message = "Обязательное поле")
     private String name;
 
     @Column(name = "lastName")
     private String lastName;
 
     @Column(name = "age")
-    @Min(value = 1, message = "Некорректное значение")
+    //@Min(value = 1, message = "Некорректное значение")
     private int age;
 
     @Column(name = "email")
-    @Email(message = "Некорректное значение")
-    @NotEmpty
+    //@Email(message = "Некорректное значение")
+    //@NotEmpty
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles"
+            , joinColumns = @JoinColumn(name = "users_id")
+            , inverseJoinColumns = @JoinColumn(name = "roles_id")
+    )
     private Set<Role> roles;
 
-    @Transient
-    private String password = "pass";
+    @Column(name = "password")
+    private String password = "$2a$12$nwHY4Z2PtZ6KkA0PbPPIyewOc7qWiAub2bJA4aItSJFHwtlO0qS9S"; //pass
 
     public User() {
 
@@ -49,6 +54,13 @@ public class User implements UserDetails {
         this.lastName = lastName;
         this.age = age;
         this.email = email;
+    }
+
+    public void addRoleToUser(Role role) {
+        if (roles == null) {
+            roles = new HashSet<>();
+        }
+        roles.add(role);
     }
 
 
@@ -94,6 +106,8 @@ public class User implements UserDetails {
     }
 
     public Set<Role> getRoles() {
+
+        System.out.println(roles);
         return roles;
     }
 

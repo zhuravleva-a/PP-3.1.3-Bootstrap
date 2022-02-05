@@ -10,5 +10,7 @@ public interface RoleDao {
     void save(Role role);
     void update(int id, Role updatedRole);
     void delete(int id);
+    Role getRoleByName(String roleName);
+    //public Set<Role> getSetOfRoles(String[] rolesNames);
 
 }

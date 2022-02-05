@@ -45,4 +45,13 @@ public class RoleServiceImpl implements RoleService {
         roleDao.delete(id);
 
     }
+
+    @Override
+    public Role getRoleByName(String roleName) {
+        return roleDao.getRoleByName(roleName);
+    }
+
+//    public Set<Role> getSetOfRoles(String[] name) {
+//       return roleDao.getSetOfRoles(name);
+//    }
 }

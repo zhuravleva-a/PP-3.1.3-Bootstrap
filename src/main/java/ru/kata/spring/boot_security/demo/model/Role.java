@@ -3,6 +3,10 @@ package ru.kata.spring.boot_security.demo.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -15,12 +19,34 @@ public class Role implements GrantedAuthority {
     @Column(name = "name")
     private String name;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles"
+            , joinColumns = @JoinColumn(name = "roles_id")
+            , inverseJoinColumns = @JoinColumn(name = "users_id")
+    )
+    private List<User> users;
+
     public Role() {
 
     }
 
     public Role(String name) {
         this.name = name;
+    }
+
+    public void addUserToRoles(User user) {
+        if (users == null) {
+            users = new ArrayList<>();
+        }
+        users.add(user);
+    }
+
+    public Set<Role> getSetOfRoles(String[] roleNames) {
+        Set<Role> roles = new HashSet<>();
+        for (String role: roleNames) {
+            roles.add(new Role(role));
+        }
+        return roles;
     }
 
 

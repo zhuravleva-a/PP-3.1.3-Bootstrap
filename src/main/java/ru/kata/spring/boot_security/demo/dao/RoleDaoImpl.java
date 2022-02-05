@@ -5,6 +5,7 @@ import ru.kata.spring.boot_security.demo.model.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,30 @@ public class RoleDaoImpl implements RoleDao {
                 .setParameter(1, id)
                 .executeUpdate();
     }
+
+    @Override
+    public Role getRoleByName(String roleName) {
+        return (Role) em.createQuery("from Role role where role.name = ?1")
+                .setParameter(1, roleName)
+                .getSingleResult();
+    }
+
+
+//    public Role getRoleByName(String roleName) {
+//
+//        return (Role) em.createQuery("from Role r where r.role=:role")
+//                .setParameter("role", roleName)
+//                .getSingleResult();
+//    }
+
+//    @Override
+//    public Set<Role> getSetOfRoles(String[] rolesNames) {
+//        Set<Role> roleSet = new HashSet<>();
+//        for (String role : rolesNames) {
+//            roleSet.add(getRoleByName(role));
+//        }
+//        return (HashSet) roleSet;
+//    }
 
 
 }

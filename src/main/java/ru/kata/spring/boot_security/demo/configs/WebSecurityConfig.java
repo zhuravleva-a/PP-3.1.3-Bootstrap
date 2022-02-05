@@ -33,11 +33,6 @@ public class    WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.successUserHandler = successUserHandler;
     }
 
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService);
-//
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -68,8 +63,7 @@ public class    WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     protected PasswordEncoder passwordEncoder() {
-        // return new BCryptPasswordEncoder(12);
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder(12);
     }
 
 }
