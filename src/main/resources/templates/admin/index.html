@@ -20,17 +20,19 @@
 
 
 <!-- Создание контейнера -->
-<div class="container-fluid">
+<div class="container-fluid" style="height: 1200px">
 
     <!-- Шапка страницы -->
     <div class="row" style="background-color: #343a40">
         <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-light"
              style="background-color: #343a40">
-            <div class="container-fluid">
+            <div class="container-fluid ms-0 px-0">
                 <ul class="navbar-nav mr-auto">
                     <a class="navbar-brand text-white fw-bold" th:text="${currentUser.getUsername()}">VALUE</a>
                     <a class="navbar-brand fw-normal text-white"> with roles: </a>
-                    <a class="navbar-brand fw-normal text-white" th:text="${currentUser.getRoles()}"></a>
+                    <a th:each="role: ${currentUser.roles}" style="height: 40px">
+                        <a class="navbar-brand fw-normal text-white" style="height: 40px" th:text="${role.name}"></a>
+                    </a>
                 </ul>
                 <!--Кнопка logout-->
                 <form th:method="POST" th:action="@{/logout}">
@@ -42,18 +44,23 @@
     </div>
 
     <!-- Разметка страницы на левую панель + основной блок -->
-    <div class="row">
+    <div class="row" style="height: 1200px">
 
         <!-- Боковая панель -->
-        <div class="col-md-2 bg-white" style="background-color: #ffffff">
+
+        <div class="col-md-2 ms-0 px-0 bg-white" style="background-color: #ffffff">
+            <br/>
             <div class="nav nav-pills flex-column">
                 <a class="nav-link active" href="#AdminPage" data-bs-toggle="tab">Admin</a>
                 <a class="nav-link" href="#UserPage" data-bs-toggle="tab">User</a>
             </div>
         </div>
 
-        <!-- Центральный блок -->
-        <div class="col-md-10 bg-light" style="background-color: #f8f9fa">
+
+
+            <!-- Центральный блок -->
+        <div class="col-md-10 bg-light" style="background-color: #f8f9fa; height: 1200px;">
+            <br/>
             <div class="tab-content">
                 <!-- Вкладка Users table -->
                 <div class="tab-pane fade show active" id="AdminPage">
@@ -67,19 +74,6 @@
                             <a class="nav-link" id="NewUserTab" href="#NewUser" data-bs-toggle="tab">New user</a> <!-- надо поменять-->
                         </li>
                     </ul>
-
-
-
-                    <!--<nav class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-                        <a class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
-                        <a class="nav-link disabled" id="nav-disabled-tab" data-bs-toggle="tab" href="#nav-disabled" role="tab" aria-controls="nav-disabled" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </nav>
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid tempore tempora molestiae pariatur, voluptate fuga corrupti est reiciendis maxime totam dolores, voluptates, dolorem eaque sequi.</div>
-                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni, natus sed soluta necessitatibus tempore aspernatur? Praesentium, odit explicabo distinctio dolore adipisci officia iure, ut magnam optio aliquam at similique veritatis.</div>
-                        <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laudantium minima repellat incidunt facilis obcaecati blanditiis corrupti ad officia doloribus ullam sapiente ipsum, nemo a, excepturi voluptatem voluptatibus velit eum dignissimos ut, nam tempora? Reiciendis illo itaque veritatis eligendi fuga, mollitia ratione totam veniam esse in.</div>
-                    </div>-->
 
                     <div class="tab-content">
 
@@ -148,27 +142,27 @@
                                             <div class="mb-3">
                                                 <label for="inputName" class="form-label fw-bold">First name</label>
                                                 <input type="text" class="form-control form-control-sm-6" id="inputName"
-                                                       th:field="*{name}">
+                                                       th:field="*{name}" placeholder="First name">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="inputLastName" class="form-label fw-bold">Last name</label>
                                                 <input type="text" class="form-control" id="inputLastName"
-                                                       th:field="*{lastName}">
+                                                       th:field="*{lastName}" placeholder="Last name">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="inputAge" class="form-label fw-bold">Age</label>
-                                                <input type="number" class="form-control" id="inputAge"
-                                                       th:field="*{age}">
+                                                <input type="text" class="form-control" id="inputAge"
+                                                       th:field="*{age}" placeholder="Age">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="inputEmail" class="form-label fw-bold">E-mail</label>
                                                 <input type="email" class="form-control" id="inputEmail"
-                                                       th:field="*{email}">
+                                                       th:field="*{email}" placeholder="E-mail">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="inputPassword" class="form-label fw-bold">Password</label>
                                                 <input type="password" class="form-control" id="inputPassword"
-                                                       th:field="*{password}">
+                                                       th:field="*{password}" placeholder="Password">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="inputRole" class="form-label fw-bold">Roles</label>
@@ -183,7 +177,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <input type="submit" value="Add new user" class="btn btn-primary"/>
+                                            <input type="submit" value="Add new user" class="btn btn-success"/>
                                         </form>
                                     </div>
                                 </div>
@@ -197,8 +191,8 @@
                 <!--Вкладка Current user -->
                 <div class="tab-pane fade" id="UserPage">
                     <div class="card">
-                        <h2 class="h2">User information-page</h2>
-                        <h3 class="card-header">About user</h3>
+                        <h3 class="h3">User information-page</h3>
+                        <h5 class="card-header">About user</h5>
                         <div class="card-body text-center">
                             <table class="table table-striped">
                                 <thead>
@@ -214,7 +208,7 @@
                                 <tbody>
                                 <tr>
                                     <td th:text="${currentUser.getId()}"></td>
-                                    <td th:text="${currentUser.getUsername()}"></td>
+                                    <td th:text="${currentUser.getName()}"></td>
                                     <td th:text="${currentUser.getLastName()}"></td>
                                     <td th:text="${currentUser.getAge()}"></td>
                                     <td th:text="${currentUser.getUsername()}"></td>
@@ -229,12 +223,6 @@
             </div>
 
 
-            <!--Навигация между карточками Users table & New User-->
-
-
-            <!--Карточка Users table-->
-
-
         </div>
 
 
@@ -246,27 +234,30 @@
 
 <!-- Модальное окно Edit -->
 
-<div th:each="user :  ${users}" th:id="${'editModal' + user.getId()}" class="modal fade"
-     tabindex="-1"
-     role="dialog" aria-hidden="true">
+<div class="modal fade" th:each="user :  ${users}" th:id="${'editModal' + user.getId()}"
+     tabindex="-1" role="dialog" aria-hidden="true">
     <form th:id="${'editForm' + user.getId()}" th:method="POST"
           th:action="@{/admin/{id}(id=${user.getId()})}"
           th:object="${user}">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title" id="editModalLabel">Edit user</p>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="editModalLabel">Edit user</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body mr-6 ml-6 text-center">
+                <div class="modal-body mx-auto col-md-6 text-center">
+
+                    <label th:for="${'id' + user.getId()}" class="form-label fw-bold mt-0">ID
+                        name</label>
+                    <input type="text" class="form-control mt-0 mb-2" th:value="*{id}"
+                           th:id="${'id' + user.getId()}" name="id" disabled/>
                     <label th:for="${'name' + user.getId()}" class="form-label fw-bold">First
                         name</label>
                     <input type="text" class="form-control form-control-sm-6" th:value="*{name}"
-                           th:id="${'name' + user.getId()}" name="name"
-                           style="background-color: lightgray"/>
-                    <label th:for="${'lastName' + user.getId()}" class="form-label fw-bold">Last
+                           th:id="${'name' + user.getId()}" name="name"/>
+                    <label th:for="${'lastName' + user.getId()}" class="form-label pt-2 pb-0 fw-bold">Last
                         name</label>
                     <input type="text" class="form-control form-control-sm-6" th:value="*{lastName}"
                            th:id="${'lastName' + user.getId()}" name="lastName"/>
@@ -281,8 +272,8 @@
                            th:id="${'email' + user.getId()}" name="email"/>
 
 
-                    <label th:for="${'password' + user.getId()}">Password</label>
-                    <input type="password" class="form-control form-control-sm-6"
+                    <label th:for="${'password' + user.getId()}" class="form-label fw-bold">Password</label>
+                    <input type="password" class="form-control fw-bold"
                            th:value="*{password}" th:id="${'password' + user.getId()}"
                            name="password"/>
 
@@ -322,47 +313,47 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title" id="deleteModalLabel">Delete user</p>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete user</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
-                <div class="modal-body col-md-4 text-center">
+                <div class="modal-body mx-auto col-md-6 text-center">
 
                     <label th:for="${'nameDel' + user.getId()}" class="form-label fw-bold">First
                         name</label>
                     <input type="text" class="form-control form-control-sm-6" th:value="*{name}"
-                           th:id="${'nameDel' + user.getId()}" name="name"/>
+                           th:id="${'nameDel' + user.getId()}" name="name" disabled/>
 
                     <label th:for="${'lastNameDel' + user.getId()}" class="form-label fw-bold">Last
                         name</label>
                     <input type="text" class="form-control form-control-sm-6" th:value="*{lastName}"
-                           th:id="${'lastNameDel' + user.getId()}" name="lastName"/>
+                           th:id="${'lastNameDel' + user.getId()}" name="lastName" disabled/>
 
                     <label th:for="${'ageDel' + user.getId()}"
                            class="form-label fw-bold">Age</label>
                     <input type="number" class="form-control form-control-sm-6" th:value="*{age}"
-                           th:id="${'ageDel' + user.getId()}" name="age"/>
+                           th:id="${'ageDel' + user.getId()}" name="age" disabled/>
 
                     <label th:for="${'emailDel' + user.getId()}"
                            class="form-label fw-bold">E-mail</label>
                     <input type="email" class="form-control form-control-sm-6" th:value="*{email}"
-                           th:id="${'emailDel' + user.getId()}" name="email"/>
+                           th:id="${'emailDel' + user.getId()}" name="email" disabled/>
 
-                    <label th:for="${'passwordDel' + user.getId()}">Password</label>
+                    <label th:for="${'passwordDel' + user.getId()}" class="form-label fw-bold">Password</label>
                     <input type="password" class="form-control form-control-sm-6"
                            th:value="*{password}" th:id="${'passwordDel' + user.getId()}"
-                           name="password"/>
+                           name="password" disabled/>
 
                     <label th:for="${'rolesDel' + user.getId()}"
                            class="form-label fw-bold">Roles</label>
                     <div>
                         <select class="form-control" name="roles" multiple size="2"
-                                th:value="*{roles}">
+                                th:value="*{roles}" disabled>
                             <div th:each="role : ${roles}">
                                 <option th:text="${role.getName()}" th:value="${role.getName()}"
-                                        th:id="${'rolesDel' + user.getId()}"/>
+                                        th:id="${'rolesDel' + user.getId()}" disabled/>
                             </div>
                         </select>
                     </div>

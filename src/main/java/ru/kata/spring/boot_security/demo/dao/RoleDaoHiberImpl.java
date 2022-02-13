@@ -5,12 +5,11 @@ import ru.kata.spring.boot_security.demo.model.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
-public class RoleDaoImpl implements RoleDao {
+public class RoleDaoHiberImpl implements RoleDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -50,21 +49,6 @@ public class RoleDaoImpl implements RoleDao {
     }
 
 
-//    public Role getRoleByName(String roleName) {
-//
-//        return (Role) em.createQuery("from Role r where r.role=:role")
-//                .setParameter("role", roleName)
-//                .getSingleResult();
-//    }
-
-//    @Override
-//    public Set<Role> getSetOfRoles(String[] rolesNames) {
-//        Set<Role> roleSet = new HashSet<>();
-//        for (String role : rolesNames) {
-//            roleSet.add(getRoleByName(role));
-//        }
-//        return (HashSet) roleSet;
-//    }
 
 
 }

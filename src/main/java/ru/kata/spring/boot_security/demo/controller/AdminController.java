@@ -42,20 +42,20 @@ public class AdminController {
     @GetMapping("/{id}")
     public String showUserById(@PathVariable("id") int id, ModelMap model) {
         model.addAttribute("user", userService.getUserById(id));
-        return "admin/show";
+        return "admin/index";
     }
 
     @GetMapping("/new")
     public String newUser(ModelMap model) {
         model.addAttribute("user", new User());
         model.addAttribute("roles", roleService.getAllRoles());
-        return "new2";
+        return "admin/index";
     }
 
     @PostMapping()
     public String createUser(@Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "new2";
+            return "admin/index";
         }
 
         Set<Role> roles = new HashSet<>();
@@ -66,8 +66,6 @@ public class AdminController {
         user.setRoles(roles);
 
         userService.save(user);
-        System.out.println(user);
-        System.out.println(userService.getAllUsers());
         return "redirect:/admin";
     }
 
@@ -75,7 +73,7 @@ public class AdminController {
     public String editUser(@ModelAttribute("user") User user, ModelMap model, @PathVariable("id") int id) {
 
         model.addAttribute("roles", roleService.getAllRoles());
-        return "edit2";
+        return "admin/index";
     }
 
     @PostMapping("/{id}")
@@ -83,7 +81,7 @@ public class AdminController {
                              @PathVariable("id") int id,
                              @RequestParam(name="roles", required = false) String[] roles) {
         if (bindingResult.hasErrors()) {
-            return "edit2";
+            return "admin/index";
         }
 
         Set<Role> roles1 = new HashSet<>();
@@ -96,15 +94,6 @@ public class AdminController {
                 user.setRoles(roles1);
             }
         }
-//        Set<Role> roles = new HashSet<>();
-//
-//        for (Role role: user.getRoles()) {
-//            roles.add(roleService.getRoleByName(role.getName()));
-//        }
-
-
-
-        System.out.println("checking edit: " + user);
 
         userService.update(id, user);
         return "redirect:/admin";

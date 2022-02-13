@@ -20,17 +20,20 @@
 
 
 <!-- Создание контейнера -->
-<div class="container-fluid">
+<div class="container-fluid" style="height: 1200px">
 
     <!-- Шапка страницы -->
     <div class="row" style="background-color: #343a40">
         <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-light"
              style="background-color: #343a40">
-            <div class="container-fluid">
+            <div class="container-fluid ms-0 px-0">
                 <ul class="navbar-nav mr-auto">
                     <a class="navbar-brand text-white fw-bold" th:text="${currentUser.getUsername()}">VALUE</a>
                     <a class="navbar-brand fw-normal text-white"> with roles: </a>
-                    <a class="navbar-brand fw-normal text-white" th:text="${currentUser.getRoles()}"></a>
+                    <a th:each="role: ${currentUser.roles}" style="height: 40px">
+                        <a class="navbar-brand fw-normal text-white" style="height: 40px" th:text="${role.name}"></a>
+                    </a>
+                    <!--<a class="navbar-brand fw-normal text-white" th:text="${currentUser.getRoles()}"></a>-->
                 </ul>
                 <!--Кнопка logout-->
                 <form th:method="POST" th:action="@{/logout}">
@@ -42,25 +45,26 @@
     </div>
 
     <!-- Разметка страницы на левую панель + основной блок -->
-    <div class="row">
+    <div class="row" style="height: 1200px">
 
         <!-- Боковая панель -->
         <div class="col-md-2 bg-white" style="background-color: #ffffff">
+            <br/>
             <div class="nav nav-pills flex-column">
                 <a class="nav-link active" href="#UserPage" data-bs-toggle="tab">User</a>
             </div>
         </div>
 
         <!-- Центральный блок -->
-        <div class="col-md-10 bg-light" style="background-color: #f8f9fa">
+        <div class="col-md-10 bg-light" style="background-color: #f8f9fa; height: 1200px">
+            <br/>
             <div class="tab-content">
-                <!-- Вкладка Users table -->
 
                 <!--Вкладка Current user -->
                 <div class="tab-pane fade show active" id="UserPage">
                     <div class="card">
-                        <h2 class="h2">User information-page</h2>
-                        <h3 class="card-header">About user</h3>
+                        <h3 class="h3">User information-page</h3>
+                        <h5 class="card-header">About user</h5>
                         <div class="card-body text-center">
                             <table class="table table-striped">
                                 <thead>
@@ -76,7 +80,7 @@
                                 <tbody>
                                 <tr>
                                     <td th:text="${currentUser.getId()}"></td>
-                                    <td th:text="${currentUser.getUsername()}"></td>
+                                    <td th:text="${currentUser.getName()}"></td>
                                     <td th:text="${currentUser.getLastName()}"></td>
                                     <td th:text="${currentUser.getAge()}"></td>
                                     <td th:text="${currentUser.getUsername()}"></td>
@@ -89,12 +93,6 @@
                 </div>
 
             </div>
-
-
-            <!--Навигация между карточками Users table & New User-->
-
-
-            <!--Карточка Users table-->
 
 
         </div>

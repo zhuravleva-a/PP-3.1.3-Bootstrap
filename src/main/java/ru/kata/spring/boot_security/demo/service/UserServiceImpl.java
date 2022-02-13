@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.transaction.Transactional;
@@ -15,12 +14,12 @@ import java.util.List;
 @Service
 @Transactional
 @Qualifier("userDetailsService")
-public class UserServiceHibernateImpl implements UserService {
+public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
 
     @Autowired
-    public UserServiceHibernateImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -47,11 +46,6 @@ public class UserServiceHibernateImpl implements UserService {
     @Override
     public void delete(long id) {
         userDao.delete(id);
-    }
-
-    @Override
-    public void addRoleToUser(User user, Role role) {
-        userDao.addRoleToUser(user, role);
     }
 
     @Override

@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Controller
-public class UsersController {
+public class UserController {
 
     private UserService userService;
 
     @Autowired
-    public UsersController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

@@ -40,7 +40,7 @@ public class User implements UserDetails {
             , joinColumns = @JoinColumn(name = "users_id")
             , inverseJoinColumns = @JoinColumn(name = "roles_id")
     )
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     @Column(name = "password")
     private String password = "$2a$12$nwHY4Z2PtZ6KkA0PbPPIyewOc7qWiAub2bJA4aItSJFHwtlO0qS9S"; //pass
@@ -56,12 +56,12 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public void addRoleToUser(Role role) {
-        if (roles == null) {
-            roles = new HashSet<>();
-        }
-        roles.add(role);
-    }
+//    public void addRoleToUser(Role role) {
+//        if (roles == null) {
+//            roles = new HashSet<>();
+//        }
+//        roles.add(role);
+//    }
 
 
 
